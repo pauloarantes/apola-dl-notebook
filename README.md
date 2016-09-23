@@ -7,6 +7,7 @@ Our Deep Learnign sandbox docker image, works out of the box! Based on Ubuntu 14
 
 ### Usage
 Simple run: `docker run -it -p 8888:8888 elefthei/apola-dl-notebook`
+
 Run with local volume (persistent notebooks): `docker run -it -p 8888:8888 -v $(HOME)/notebooks:/notebooks elefthei/apola-dl-notebook`
 
 ### Connect
