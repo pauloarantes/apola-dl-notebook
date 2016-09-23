@@ -12,4 +12,4 @@ Run with local volume (persistent notebooks): `docker run -it -p 8888:8888 -v $(
 
 ### Connect
 
-From your browser, conenct to http://localhost:8888 to enter your Jupyter sandbox.
+From your browser, conenct to `http://localhost:8888` to enter your Jupyter sandbox.
