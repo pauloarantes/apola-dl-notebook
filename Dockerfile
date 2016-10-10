@@ -61,9 +61,14 @@ ENV LUA_CPATH='/root/torch/install/lib/?.so;'$LUA_CPATH
 # Install iTorch
 RUN git clone https://github.com/facebook/iTorch.git && \
     cd iTorch && \
+    luarocks install torch && \
+    luarocks install nn && \
+    luarocks install dpnn && \
+    luarocks install torchx && \
     luarocks install lbase64 && \
     luarocks install uuid && \
     luarocks install luacrypto && \
+    luarocks install rnn && \
     luarocks install lzmq && \
     luarocks install csvigo && \
     luarocks install async && \
