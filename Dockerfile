@@ -65,6 +65,14 @@ RUN git clone https://github.com/facebook/iTorch.git && \
     luarocks install uuid && \
     luarocks install luacrypto && \
     luarocks install lzmq && \
+    luarocks install csvigo && \
+    luarocks install async && \
+    luarocks install luasocket && \
+    luarocks install s3 && \
+    luarocks install threads && \
+    luarocks install ftcsv && \
+    luarocks install https://raw.githubusercontent.com/benglard/htmlua/master/htmlua-scm-1.rockspec && \
+    luarocks install --server=http://luarocks.org/dev lua-promises && \
     luarocks make && \
     echo 'ln /dev/null /dev/raw1394' >> ~/.bashrc
 
