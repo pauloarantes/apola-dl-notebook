@@ -1,9 +1,9 @@
 # apola-dl-notebook
-Jupyter notebook docker server with TensorFlow, Caffe, iTorch and more.
+Jupyter notebook docker server with TensorFlow, Caffe, Keras, iTorch and more.
 
 `Apola (Greek, adj): With everything.`
 
-Our Deep Learnign sandbox docker image, works out of the box! Based on Ubuntu 14.04 Trusty, actually based on tensorflow/tensorflow image, build Caffe and iTorch into the image.
+Our Deep Learnign sandbox docker image, works out of the box! Based on Ubuntu 14.04 Trusty, actually based on tensorflow/tensorflow image.
 
 ### Usage
 Simple run: `docker run -it -p 8888:8888 elefthei/apola-dl-notebook`

@@ -31,14 +31,15 @@ RUN apt-get update && \
     libhdf5-serial-dev \
     protobuf-compiler
 
-# Caffe installation for Python
+# Caffe & Keras installation for Python
 RUN git clone https://github.com/BVLC/caffe.git /root/caffe && \
     cd /root/caffe && \
+    pip install -r ./python/requirements.txt && \
     mkdir build && cd build && \
     cmake .. && \
     make all && \
     make install && \
-    pip install -r /root/caffe/python/requirements.txt
+	pip install keras
 
 ENV PYTHONPATH=/root/caffe/python/:$PYTHONPATH
 
