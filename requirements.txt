@@ -2,3 +2,4 @@ pip install seaborn
 pip install scikit-tensor
 pip install tqdm
 pip install tensorly
+pip install joblib
