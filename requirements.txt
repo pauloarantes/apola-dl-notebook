@@ -1,4 +1,5 @@
 seaborn
+scikit-learn
 scikit-tensor
 tqdm
 tensorly
