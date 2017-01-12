@@ -1,5 +1,7 @@
-pip install seaborn
-pip install scikit-tensor
-pip install tqdm
-pip install tensorly
-pip install joblib
+seaborn
+scikit-tensor
+tqdm
+tensorly
+joblib
+plotly
+tsne

@@ -1,5 +1,5 @@
 # Set the base image to Ubuntu
-FROM tensorflow/tensorflow:latest-gpu
+FROM tensorflow/tensorflow:0.11.0-gpu
 
 # File Author / Maintainer
 MAINTAINER Lef Ioannidis
@@ -41,7 +41,8 @@ RUN apt-get update && \
     libsnappy-dev \
     libopencv-dev \
     libhdf5-serial-dev \
-    protobuf-compiler
+    protobuf-compiler \
+    python-tk
 
 
 RUN wget -qO - http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/7fa2af80.pub | sudo apt-key add - && \
@@ -75,18 +76,22 @@ RUN echo "/usr/local/cuda/lib" >> /etc/ld.so.conf.d/cuda.conf && \
 RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
     echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
 
+
 # Caffe & Keras installation for Python
 RUN git clone https://github.com/BVLC/caffe.git /root/caffe && \
     cd /root/caffe && \
-    pip install -r ./python/requirements.txt && \
+    pip install -r requirements.txt && \
     mkdir build && cd build && \
     cmake .. && \
     make all && \
     make install && \
-	pip install keras
-
+COPY requirements.txt /notebooks
+RUN  pip install keras && pip install nose && \
+     pip install Cython && pip install -r requirements.txt
+RUN rm requirements.txt
 ENV PYTHONPATH=/root/caffe/python/:$PYTHONPATH
-
+RUN git clone https://github.com/nphoff/saxpy.git /root/saxpy
+ENV PYTHONPATH=/root/saxpy:$PYTHONPATH
 # Torch7 installation scripts - http://torch.ch/docs/getting-started.html
 RUN git clone https://github.com/torch/distro.git /root/torch --recursive && \
     cd /root/torch && \
@@ -129,6 +134,7 @@ RUN git clone https://github.com/facebook/iTorch.git && \
 EXPOSE 8888
 
 WORKDIR /notebooks
+
 
 CMD ["/run_jupyter.sh"]
 
