@@ -6,3 +6,4 @@ tensorly
 joblib
 plotly
 tsne
+h5py
