@@ -37,7 +37,7 @@ RUN apt-get update && \
     openmpi-doc \
     python3-pydot
 
-RUN wget -qO - http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub | sudo apt-key add - && \
+RUN wget -qO - http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub | apt-key add - && \
 	apt-get update && apt-get install -y --no-install-recommends --force-yes \
         cuda-core-$CUDA_PKG_VERSION \
         cuda-misc-headers-$CUDA_PKG_VERSION \
@@ -52,14 +52,8 @@ RUN wget -qO - http://developer.download.nvidia.com/compute/cuda/repos/ubuntu160
         cuda-npp-dev-$CUDA_PKG_VERSION \
         cuda-cudart-dev-$CUDA_PKG_VERSION \
         cuda-driver-dev-$CUDA_PKG_VERSION && \
-    cd /tmp && apt-get download gpu-deployment-kit && \
+    ln -s cuda-8.0 /usr/local/cuda && \
     rm -rf /var/lib/apt/lists/*
-
-RUN mkdir /tmp/gpu-deployment-kit && cd /tmp/gpu-deployment-kit && \
-    dpkg -x /tmp/gpu-deployment-kit_*.deb . && \
-    mv usr/include/nvidia/gdk/* /usr/local/cuda/include && \
-    mv usr/src/gdk/nvml/lib/* /usr/local/cuda/lib64/stubs && \
-    rm -rf /tmp/gpu-deployment-kit*
 
 RUN echo "/usr/local/cuda/lib" >> /etc/ld.so.conf.d/cuda.conf && \
     echo "/usr/local/cuda/lib64" >> /etc/ld.so.conf.d/cuda.conf && \
@@ -69,32 +63,33 @@ RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
     echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
 
 ## Install PyTorch
-RUN pip3 install http://download.pytorch.org/whl/cu80/torch-0.1.12.post2-cp35-cp35m-linux_x86_64.whl && \
+RUN pip3 install http://download.pytorch.org/whl/cu80/torch-0.1.12.post2-cp35-cp35m-linux_x86_64.whl  && \
     pip3 install torchvision
 
-## Install Caffe2 pip dependencies
-RUN pip3 install \
-    flask \
-    future \
-    graphviz \
-    hypothesis \
-    jupyter \
-    matplotlib \
-    pydot python-nvd3 \
-    pyyaml \
-    requests \
-    scikit-image \
-    scipy \
-    setuptools \
-    six \
-    tornado
-
-## Install Caffe
-RUN git clone --recursive https://github.com/caffe2/caffe2.git /root/caffe2 && \
-    cd /root/caffe2 && \
-    make && \
-    cd build && \
-    make install
+### Install Caffe2 pip dependencies
+#RUN pip3 install \
+#    flask \
+#    future \
+#    graphviz \
+#    hypothesis \
+#    jupyter \
+#    matplotlib \
+#    pydot python-nvd3 \
+#    pyyaml \
+#    requests \
+#    scikit-image \
+#    scipy \
+#    setuptools \
+#    six \
+#    tornado \
+#    numpy
+#
+### Install Caffe
+#RUN git clone --recursive https://github.com/caffe2/caffe2.git /root/caffe2 && \
+#    cd /root/caffe2 && \
+#    make && \
+#    cd build && \
+#    make install
    
 ## Caffe & Keras installation for Python
 #RUN git clone https://github.com/BVLC/caffe.git /root/caffe && \
@@ -104,6 +99,7 @@ RUN git clone --recursive https://github.com/caffe2/caffe2.git /root/caffe2 && \
 #    cmake .. && \
 #    make all && \
 #    make install && \
+
 COPY requirements.txt /notebooks
 RUN  pip install keras && pip install nose && \
      pip install Cython && pip install -r requirements.txt
@@ -111,8 +107,8 @@ RUN rm requirements.txt
 #ENV PYTHONPATH=/root/caffe/python/:$PYTHONPATH
 RUN git clone https://github.com/nphoff/saxpy.git /root/saxpy
 ENV PYTHONPATH=/root/saxpy:$PYTHONPATH
-ENV PATH /root/torch/install/bin:/usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
-ENV LD_LIBRARY_PATH /root/torch/install/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
+ENV PATH /usr/local/cuda/bin:${PATH}
+ENV LD_LIBRARY_PATH /usr/local/cuda/lib:/usr/local/cuda/lib64:${LD_LIBRARY_PATH}
 ENV LIBRARY_PATH /usr/local/cuda/lib64/stubs:${LIBRARY_PATH}
 
 # Expose ports
@@ -121,5 +117,5 @@ EXPOSE 8888
 WORKDIR /notebooks
 
 
-CMD ["/run_jupyter.sh"]
+CMD ["/run_jupyter.sh", "--allow-root"]
 
