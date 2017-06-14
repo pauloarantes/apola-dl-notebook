@@ -68,6 +68,33 @@ RUN echo "/usr/local/cuda/lib" >> /etc/ld.so.conf.d/cuda.conf && \
 RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
     echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
 
+## Install PyTorch
+RUN pip3 install http://download.pytorch.org/whl/cu80/torch-0.1.12.post2-cp35-cp35m-linux_x86_64.whl && \
+    pip3 install torchvision
+
+## Install Caffe2 pip dependencies
+RUN pip3 install \
+    flask \
+    future \
+    graphviz \
+    hypothesis \
+    jupyter \
+    matplotlib \
+    pydot python-nvd3 \
+    pyyaml \
+    requests \
+    scikit-image \
+    scipy \
+    setuptools \
+    six \
+    tornado
+
+## Install Caffe
+RUN git clone --recursive https://github.com/caffe2/caffe2.git /root/caffe2 && \
+    cd /root/caffe2 && \
+    make && \
+    cd build && \
+    make install
    
 ## Caffe & Keras installation for Python
 #RUN git clone https://github.com/BVLC/caffe.git /root/caffe && \
