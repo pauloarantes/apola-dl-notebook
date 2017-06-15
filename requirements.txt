@@ -1,9 +1,7 @@
 seaborn
 scikit-learn
-scikit-tensor
 tqdm
 tensorly
 joblib
 plotly
-tsne
 h5py
