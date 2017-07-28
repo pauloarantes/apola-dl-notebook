@@ -8,7 +8,6 @@ variables:
 before_script:
   - virtualenv env
   - ./env/bin/pip install --upgrade git+ssh://git@git.unify.id/UnifyID/dockerhelper.git
-  - docker login -u ${DOCKERHUB_USER} -p ${DOCKERHUB_PASSWORD}
 
 deploy_gpu:
   stage: deploy
@@ -16,7 +15,7 @@ deploy_gpu:
     - master
   script:
     - ./env/bin/dockerhelper build --tag gpu Dockerfile.gpu
-    - ./env/bin/dockerhelper push --tag gpu Dockerfile.gpu
+    - ./env/bin/dockerhelper push --tag gpu -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD Dockerfile.gpu
   tags:
     - shell
 
@@ -26,7 +25,7 @@ deploy_cpu:
     - master
   script:
     - ./env/bin/dockerhelper build --tag cpu Dockerfile.cpu
-    - ./env/bin/dockerhelper push --tag cpu Dockerfile.cpu
+    - ./env/bin/dockerhelper push --tag cpu -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD Dockerfile.cpu
   tags:
     - shell
 
@@ -36,6 +35,6 @@ deploy_latest:
     - master
   script:
     - ./env/bin/dockerhelper build --tag latest Dockerfile.cpu
-    - ./env/bin/dockerhelper push --tag latest Dockerfile.cpu
+    - ./env/bin/dockerhelper push --tag latest -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD Dockerfile.cpu
   tags:
     - shell
