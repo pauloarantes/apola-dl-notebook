@@ -7,7 +7,7 @@ variables:
 
 before_script:
   - virtualenv env
-  - ./bin/env/pip install
+  - ./env/bin/pip install --upgrade git+ssh://git@git.unify.id/UnifyID/dockerhelper.git
 
 deploy_gpu:
   stage: deploy
