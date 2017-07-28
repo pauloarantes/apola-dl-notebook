@@ -1,0 +1,40 @@
+stages:
+  - deploy
+
+variables:
+  REPOSITORY: unifyid/apola-dl-notebook
+  VENDOR: UnifyID
+
+before_script:
+  - virtualenv env
+  - ./bin/env/pip install
+
+deploy_gpu:
+  stage: deploy
+  only:
+    - master
+  script:
+    - ./env/bin/dockerhelper build --tag gpu Dockerfile.gpu
+    - ./env/bin/dockerhelper push --tag gpu Dockerfile.gpu
+  tags:
+    - shell
+
+deploy_cpu:
+  stage: deploy
+  only:
+    - master
+  script:
+    - ./env/bin/dockerhelper build --tag cpu Dockerfile.cpu
+    - ./env/bin/dockerhelper push --tag cpu Dockerfile.cpu
+  tags:
+    - shell
+
+deploy_latest:
+  stage: deploy
+  only:
+    - master
+  script:
+    - ./env/bin/dockerhelper build --tag latest Dockerfile.cpu
+    - ./env/bin/dockerhelper push --tag latest Dockerfile.cpu
+  tags:
+    - shell

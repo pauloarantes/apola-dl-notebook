@@ -6,8 +6,9 @@ MAINTAINER Lef Ioannidis
 
 # Install git and iTorch dependencies
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends libboost-all-dev && \
-    apt-get install -y software-properties-common \
+    apt-get install -yq --no-install-recommends libboost-all-dev && \
+    apt-get install -yqq software-properties-common \
+    python-pip \
     git \
     wget \
     cmake \
