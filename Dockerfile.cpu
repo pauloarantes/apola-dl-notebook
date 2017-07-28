@@ -9,6 +9,8 @@ RUN apt-get update && \
     apt-get install -yq --no-install-recommends libboost-all-dev && \
     apt-get install -yqq software-properties-common \
     python-pip \
+    python-dev \
+    python-setuptools
     git \
     wget \
     cmake \
@@ -31,17 +33,6 @@ RUN apt-get update && \
     libopencv-dev \
     libhdf5-serial-dev \
     protobuf-compiler
-
-# Caffe installation for Python
-RUN git clone https://github.com/BVLC/caffe.git /root/caffe && \
-    cd /root/caffe && \
-    mkdir build && cd build && \
-    cmake .. && \
-    make all && \
-    make install && \
-    pip install -r /root/caffe/python/requirements.txt
-
-ENV PYTHONPATH=/root/caffe/python/:$PYTHONPATH
 
 # Torch7 installation scripts - http://torch.ch/docs/getting-started.html
 RUN git clone https://github.com/torch/distro.git /root/torch --recursive && \
@@ -88,4 +79,3 @@ EXPOSE 8888
 WORKDIR /notebooks
 
 CMD ["/run_jupyter.sh"]
-
