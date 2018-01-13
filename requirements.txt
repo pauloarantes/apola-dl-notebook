@@ -26,4 +26,4 @@ tensorflow-gpu==0.12.1
 pandas==0.21.0
 pymongo==3.4.0
 statsd==3.2.1
-git+ssh://git@git.unify.id/UnifyID/ml/factor-libs.git
+git+ssh://git@git.unify.id/UnifyID/ml/factor-libs.git@v0.1.3
