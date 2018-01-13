@@ -16,7 +16,6 @@ six>=1.1.0
 seaborn
 scikit-learn==0.18.1
 tqdm
-tensorly
 joblib
 plotly
 h5py==2.6.0
